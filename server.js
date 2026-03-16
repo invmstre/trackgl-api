@@ -19,30 +19,33 @@ app.get("/track", async (req, res) => {
   }
 
   try {
-    const response = await fetch("https://api.shipresolve.com/v1/tracking", {
+
+    const response = await fetch("https://service.shipresolve.com/api/tracking", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
         "api-key": API_KEY
       },
       body: JSON.stringify({
-        tracking_number: tracking,
-        carrier: "auto-detect"
+        tracking_number: tracking
       })
     });
 
     const text = await response.text();
     res.status(response.status).send(text);
+
   } catch (error) {
+
     res.status(500).json({
       error: "Tracking failed",
       details: error.message
     });
+
   }
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`TrackGL API running on port ${PORT}`);
 });
