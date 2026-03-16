@@ -15,7 +15,7 @@ app.get("/track", async (req, res) => {
   }
 
   try {
-    const response = await fetch("API_ENDPOINT_HERE", {
+    const response = await fetch("https://trackgl-api.onrender.com", {
       method: "GET",
       headers: {
         "api-key": API_KEY
