@@ -7,10 +7,6 @@ app.use(cors());
 
 const API_KEY = process.env.SHIPRESOLVE_API_KEY;
 
-app.get("/", (req, res) => {
-  res.send("TrackGL API running");
-});
-
 app.get("/track", async (req, res) => {
 
   const tracking = req.query.number;
@@ -25,7 +21,6 @@ app.get("/track", async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
         "api-key": API_KEY
       },
       body: JSON.stringify({
@@ -34,9 +29,9 @@ app.get("/track", async (req, res) => {
       })
     });
 
-    const text = await response.text();
+    const data = await response.json();
 
-    res.send(text);
+    res.json(data);
 
   } catch (error) {
 
