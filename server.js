@@ -20,7 +20,7 @@ app.get("/track", async (req, res) => {
 
   try {
 
-    const response = await fetch("https://service.shipresolve.com/track/tracking", {
+    const response = await fetch("https://service.shipresolve.com/api/track/tracking", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
