@@ -8,6 +8,7 @@ app.use(cors());
 const API_KEY = "97ecf47eb33fe869732178b0be148eeb63df7f8867f2d40243af8bab741d5698";
 
 app.get("/track", async (req, res) => {
+
   const tracking = req.query.number;
 
   if (!tracking) {
@@ -15,20 +16,36 @@ app.get("/track", async (req, res) => {
   }
 
   try {
-    const response = await fetch("https://trackgl-api.onrender.com", {
-      method: "GET",
+
+    const response = await fetch("https://api.shipresolve.com/v1/track", {
+      method: "POST",
       headers: {
-        "api-key": API_KEY
-      }
+        "Authorization": "Bearer " + API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        trackingNumber: tracking,
+        carrier: "auto-detect"
+      })
     });
 
     const data = await response.json();
+
     res.json(data);
+
   } catch (error) {
-    res.status(500).json({ error: "Tracking failed" });
+
+    res.status(500).json({
+      error: "Tracking failed",
+      details: error.message
+    });
+
   }
+
 });
 
-app.listen(3000, () => {
-  console.log("TrackGL API running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("TrackGL API running on port " + PORT);
 });
