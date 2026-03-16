@@ -22,19 +22,18 @@ app.get("/track", async (req, res) => {
     const response = await fetch("https://api.shipresolve.com/v1/track", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${API_KEY}`,
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "api-key": API_KEY
       },
       body: JSON.stringify({
-        trackingNumber: tracking,
-        carrier: "auto-detect"
+        trackingNumber: tracking
       })
     });
 
     const text = await response.text();
-
     res.status(response.status).send(text);
+
   } catch (error) {
     res.status(500).json({
       error: "Tracking failed",
